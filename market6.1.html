@@ -1,0 +1,240 @@
+<script>
+    let produk = [
+        {
+            nama: `Apple`,
+            harga: 10000,
+            stok: 5,
+            kadarGula: `medium`,
+            kategori: `buah`
+        },
+        {
+            nama: `French Fries`,
+            harga: 10000,
+            stok: 7,
+            expired: 2022,
+            kategori: `Fast Food`
+        },
+        {
+            nama: `Pants`,
+            harga: 20000,
+            stok: 9,
+            ukuran: `M`,
+            kategori: `Cloth`
+        },
+        {
+            nama: `Iron`,
+            harga: 25000,
+            stok: 11,
+            warranty: true,
+            kategori: `elect`
+        }
+    ]
+    let cart = []
+    let totalHarga = 0
+
+    class Produk {
+        constructor(nama, harga, stok) {
+            this.nama = nama
+            this.harga = harga
+            this.stok = stok
+        }
+    }
+    class Buah extends Produk {
+        constructor(nama, harga, stok, cate, Gula) {
+            super(nama, harga, stok)
+            this.kadarGula = Gula
+            this.kategori = cate
+        }
+
+    }
+    class FastFood extends Produk {
+        constructor(nama, harga, stok, cate, exp) {
+            super(nama, harga, stok)
+            this.expired = exp
+            this.kategori = cate
+        }
+    }
+    class Cloth extends Produk {
+        constructor(nama, harga, stok, cate, ukuran) {
+            super(nama, harga, stok)
+            this.ukuran = ukuran
+            this.kategori = cate
+        }
+    }
+    class Elect extends Produk {
+        constructor(nama, harga, stok, cate, warranty) {
+            super(nama, harga, stok)
+            this.warranty = warranty
+            this.kategori = cate
+        }
+    }
+
+    const DaftarBarang = () => {
+        let list = `Daftar barang toserba \n`
+        produk.forEach((item, index) => {
+            let Daftar = `${index + 1}. `
+            for (let prop in item) {
+                if (prop == `kategori`) {
+                    Daftar += `${item[prop]}. `
+                } else {
+                    Daftar += `${item[prop]}, `
+                }
+            }
+            list += Daftar + `\n`
+        })
+        return list
+    }
+
+    const showCart = () => {
+        let keranjang = `Daftar barang belanja anda \n`
+        cart.forEach((item, indeks) => {
+            keranjang += `${indeks + 1}. Prdouk ${item.nama}, Harga Rp.${(item.harga).toLocaleString()} x ${item.qty} = Rp.${(item.harga * item.qty).toLocaleString()} \n`
+        })
+        return keranjang
+    }
+
+    while (true) {
+        let hal_awal = +prompt(`Selamat datang di toserba
+    1. Dartar Barang
+    2. Tambah barang
+    3. Menghapus barang
+    4. Membeli Barang
+    5. Exit`)
+        if (hal_awal == 1) {
+            let list = DaftarBarang()
+            alert(list)
+        } else if (hal_awal == 2) {
+            while (true) {
+                let idkate = +prompt(`Kategori produk apa yg ingin di tambah?
+                1. Buah
+                2. FastFood
+                3. Cloth
+                4. Elect `)
+                if (idkate == 1) {
+                    let nama = prompt(`Buah apa yg ingin di tambahkan?`)
+                    let harga = +prompt(`Masukkan harga buah`)
+                    let stok = +prompt(`Masukkan stok buah`)
+                    let kadarGula = prompt(`Masukkan kadar gulan, (low, medium hight)`)
+
+                    let tambahBuah = new Buah(nama, harga, stok, `buah`, kadarGula)
+
+                    produk.push(tambahBuah)
+
+                    alert(`Terimakasih buah ${nama} sudah di masukkan ke keranjang`)
+                    let konfirmasi = confirm(`Apakah ingin menambah buah lagi?`)
+                    if (!konfirmasi) break
+
+                } else if (idkate == 2) {
+                    let nama = prompt(`Masukkan FastFood yg anda mau`)
+                    let harga = +prompt(`Masukkan harga FastFood`)
+                    let stok = +prompt(`Masukkan stok makanan`)
+                    let expired = prompt(`Masukkan tahun kadaluarsa`)
+
+                    let tambahFastFood = new FastFood(nama, harga, stok, `Fast Food`, expired)
+                    produk.push(tambahFastFood)
+
+                    alert(`Terimakasih ${nama} sudah di masukkan ke keranjang`)
+                    let konfirmasi = confirm(`Apakah ingin menambah Fast Food lagi?`)
+                    if (!konfirmasi) break
+                } else if (idkate == 3) {
+                    let nama = prompt(`Cloth apa yg ingin anda tambahkan?`)
+                    let harga = +prompt(`Masukkan harga Cloth`)
+                    let stok = +prompt(`Masukkan stok Cloth`)
+                    let ukuran = prompt(`Masukkan ukuran cloth anda`)
+
+                    let tambahCloth = new Cloth(nama, harga, stok, `Cloth`, ukuran)
+                    produk.push(tambahCloth)
+
+                    alert(`Terimakasih ${nama} sudah di tambahkan di keranjang`)
+                    let konfirmasi = confirm(`Apakah ada Cloth yg ingin di tambahkan`)
+                    if (!konfirmasi) break
+                } else if (idkate == 4) {
+                    let nama = prompt(`Elektronik apa yg ingin anda tambahkan?`)
+                    let harga = +prompt(`Masukkan harga Elektronik`)
+                    let stok = +prompt(`Masukkan stok Elektronik`)
+                    let warranty = prompt(`Apakah produk ini bergaransi: (tulis true atau false)`)
+                    if (warranty == `true`) {
+                        warranty = true
+                    } else {
+                        warranty = false
+                    }
+
+                    let tambahElect = new Elect(nama, harga, stok, `elect`, warranty)
+                    produk.push(tambahElect)
+
+                    alert(`Terimakasih ${nama} sudah di tambahkan di keranjang`)
+                    let konfirmasi = confirm(`Apakah ada Elektronik yg ingin di tambahkan`)
+                    if (!konfirmasi) break
+                }
+            }
+        } else if (hal_awal == 3) {
+            while (true) {
+                let list = DaftarBarang()
+                let indeks = +prompt(`${list}\n Produk Mana yg ingin di hapus?`)
+
+                produk.splice(indeks - 1, 1)
+                alert(`Produk ${produk[indeks - 1].nama} sudah di hapus dari keranjang`)
+                let konfirmasi = confirm(`Apakah ada produk yg ingin di hapus lagi?`)
+                if (!konfirmasi) break
+            }
+
+        } else if (hal_awal == 4) {
+            while (true) {
+                let list = DaftarBarang()
+                let indeks = +prompt(`${list}\n Produk apa yg ingin di beli `)
+                while (true) {
+                    let qty = +prompt(`Berapa ${produk[indeks - 1].nama} yg ingin di beli?. Stok tersedia ${produk[indeks - 1].stok}`)
+                    if (qty <= produk[indeks - 1].stok) {
+                        let ind = null
+                        cart.forEach((item, indekscard) => {
+                            if (item.nama == produk[indeks - 1].nama) {
+                                ind = indekscard
+                            }
+                        })
+                        if (ind == null) {
+                            cart.push({
+                                nama: produk[indeks - 1].nama,
+                                harga: produk[indeks - 1].harga,
+                                qty
+                            })
+                        } else {
+                            let temp = cart[ind].qty + qty
+                            cart[ind].qty = temp
+                        }
+                        let count = 0
+                        cart.forEach(item => {
+                            count += item.harga * item.qty
+                        })
+                        totalHarga = count
+                        alert(`Barang ${produk[indeks - 1].nama} sudah di tambahkan ke keranjang`)
+                        break
+
+                    } else if (qty > produk[indeks - 1].stok) {
+                        alert(`Stok tersedia untuk produk ${produk[indeks - 1].nama} hanya ${produk[indeks - 1].stok}, tolong masukkan sesuai stok yg tersedia!`)
+                    } 
+                }
+                let konfirmasi = confirm(`${showCart()}, apakah anda ingin menambah barang lagi`)
+                if (!konfirmasi) break
+            }
+            while (true){
+                let nominal = +prompt(`${showCart()}\n total belanja anda adalah = Rp. ${(totalHarga).toLocaleString()}`)
+                if (nominal<totalHarga){
+                    alert(`Mohon maaf uang anda Rp. ${nominal.toLocaleString()} kurang Rp. ${(totalHarga-nominal).toLocaleString()}, mohon masukkan sesuai nilai total belanja anda`)
+                } else if (nominal>totalHarga){
+                    alert(`Terimakasih, total kembalian anda Rp. ${(nominal-totalHarga).toLocaleString()}`)
+                    break
+                } else{
+                    alert(`Terimakasih, selamat berbelanja kembali`)
+                    break
+                }
+            }
+        } else if (hal_awal == 5) {
+            alert(5)
+            break
+        } else {
+            alert(`Maaf pilihan anda tidak tersedia`)
+        }
+
+    }
+
+</script>
